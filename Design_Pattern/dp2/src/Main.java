@@ -19,7 +19,7 @@ void main() {
 
     // FACTORY
     IO.println("\n------- FACTORY PATTERN -------");
-    Car car = CarFactory.getCar(Type.SUV);
+    Car car = CarFactory.getCar(Type.SEDAN);
     IO.println(car.drive());
 
     // DECORATOR
@@ -29,16 +29,18 @@ void main() {
 //
 //     SINGLETON
     IO.println("\n------- SINGLETON PATTERN -------");
-    PaymentSingleton.getInstance().ProcessPayment(carFeature.Cost());
+    PaymentSingleton.getInstance().processPayment(carFeature.Cost());
 
 //     OBSERVER
-//    IO.println("\n------- OBSERVER PATTERN -------");
-//    RentalOrderObserver order = new RentalOrderObserver();
-//    order.addObserver(new Customer("Alice"));
-//    order.addObserver(new Customer("Bob"));
-//    order.setStatus("Car Reserved");
-//    order.setStatus("Car Picked Up");
-//
+    IO.println("\n------- OBSERVER PATTERN -------");
+    PaymentSingleton payment = PaymentSingleton.getInstance();
+    
+    payment.registerObserver(new EmailNotifier());
+    payment.registerObserver(new SmsNotifier());
+    payment.registerObserver(new AuditLogger());
+
+    payment.notifyObserver(carFeature.Cost());
+
 //    // STRATEGY
 //    IO.println("\n------- STRATEGY PATTERN -------");
 //    PaymentContext payment = new PaymentContext(new CardPayment());
