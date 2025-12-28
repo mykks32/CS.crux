@@ -47,7 +47,7 @@ class Main {
 
         // Decorator Pattern
         console.log("\n----- Decorator Pattern ------");
-        const car: IBasicCar = new GPSDecorator(new BaseCar());
+        const car: IBasicCar = new MusicDecorator(new GPSDecorator(new BaseCar()));
         car.feature()
     }
 }
