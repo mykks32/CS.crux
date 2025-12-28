@@ -1,0 +1,21 @@
+{
+  "name": "ts_dp3",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "MykKs32",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon index.ts",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.3"
+  }
+}
