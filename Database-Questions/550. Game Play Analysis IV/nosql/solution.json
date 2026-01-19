@@ -1,0 +1,48 @@
+[
+  {
+    "$group": {
+      "_id": "$player_id",
+      "first_login_date": { "$min": "$event_date" }
+    }
+  },
+  {
+    "$lookup": {
+      "from": "Activity",
+      "let": { "player": "$_id", "first_date": "$first_login_date" },
+      "pipeline": [
+        {
+          "$match": {
+            "$expr": {
+              "$and": [
+                { "$eq": ["$player_id", "$$player"] },
+                { "$eq": [
+                  { "$dateFromString": { "dateString": "$event_date" } },
+                  { "$dateAdd": { "startDate": { "$dateFromString": { "dateString": "$$first_date" } }, "unit": "day", "amount": 1 } }
+                ] }
+              ]
+            }
+          }
+        }
+      ],
+      "as": "next_day_login"
+    }
+  },
+  {
+    "$project": {
+      "logged_next_day": { "$cond": [ { "$gt": [ { "$size": "$next_day_login" }, 0 ] }, 1, 0 ] }
+    }
+  },
+  {
+    "$group": {
+      "_id": null,
+      "next_day_count": { "$sum": "$logged_next_day" },
+      "total_players": { "$sum": 1 }
+    }
+  },
+  {
+    "$project": {
+      "_id": 0,
+      "fraction": { "$round": [ { "$divide": ["$next_day_count", "$total_players"] }, 2 ] }
+    }
+  }
+]
